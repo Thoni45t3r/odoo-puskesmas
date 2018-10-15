@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		
+		<record model="ir.ui.view" id="ptf_dokter_tree_view">
+		    <field name="name">ptf.dokter.tree</field>
+		    <field name="model">res.partner</field>
+		    <field name="arch" type="xml">
+		        <tree string="Dokter">
+		        	<field name="kode"/>
+		            <field name="name"/>
+		            <field name="mobile" string="No HP/Telp"/>
+		        </tree>
+		     </field>
+		</record>
+		
+		<record id="view_ptf_dokter_search" model="ir.ui.view">
+            <field name="name">ptf.dokter.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Dokter">
+		            <field name="kode"/>
+		            <field name="name"/>
+		            <field name="mobile" string="No HP/Telp"/>
+                    <filter name="group_nama" string="Nama" domain="[]" context="{'group_by':'name'}"/>
+                </search>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="ptf_dokter_form_view">
+		    <field name="name">ptf.dokter.form</field>
+		    <field name="model">res.partner</field>
+		    <field name="arch" type="xml">
+		    	
+		    	<form string="Dokter">
+		    		<sheet>
+		    			<group col="4">
+	                    	<field name="kode" string="Kode Dokter" required="1"/>
+		    				<field name="name" string="Nama" required="1"/>
+		    				<field name="street" string="Alamat" required="1"/>
+		            		<field name="mobile" string="No HP/Telp"/>
+		            		<field name="dokter" invisible="1"/>
+	                    </group>
+						<notebook>
+                            <page string="History Dokter">
+                                <field name="history_dokter" readonly="1" attrs="{'invisible': [('dokter','!=',True)]}"/>
+                            </page>
+							<page string="Note">
+								<group>
+									<field name="comment" nolabel="1" class="oe_inline" placeholder="Note"/>
+								</group>
+							</page>
+						</notebook>
+		    		</sheet>
+		    	</form>
+		    	
+			</field>
+		</record>
+		
+		<record model="ir.actions.act_window" id="ptf_dokter_action">
+            <field name="name">Dokter</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_dokter':True}</field>
+            <field name="domain">[('dokter','=',True)]</field>
+            <field name="search_view_id" ref="view_ptf_dokter_search"/>
+        </record>
+        
+        <record id="ptf_dokter_action_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="ptf_dokter_tree_view"/>
+            <field name="act_window_id" ref="ptf_dokter_action"/>
+        </record>
+        
+        <record id="ptf_dokter_action_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ptf_dokter_form_view"/>
+            <field name="act_window_id" ref="ptf_dokter_action"/>
+        </record>
+        
+        <menuitem action="ptf_dokter_action" id="ptf_dokter_menu" parent="ptf_base.ptf_data_master_submenu" sequence="10"/>
+
+
+        <!-- Form Pasien -->
+
+        <record model="ir.ui.view" id="ptf_pasien_tree_view">
+            <field name="name">ptf.pasien.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Pasien">
+                    <field name="kode"/>
+                    <field name="name"/>
+                    <field name="pekerjaan"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="gol_darah"/>
+                </tree>
+             </field>
+        </record>
+        
+        <record id="view_ptf_pasien_search" model="ir.ui.view">
+            <field name="name">ptf.pasien.search</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Pasien">
+                    <field name="kode"/>
+                    <field name="name"/>
+                    <field name="pekerjaan"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="gol_darah"/>
+                    <filter name="group_pekerjaan" string="Pekerjaan" domain="[]" context="{'group_by':'pekerjaan'}"/>
+                    <filter name="group_jenis_kelamin" string="Jenis Kelamin" domain="[]" context="{'group_by':'jenis_kelamin'}"/>
+                    <filter name="group_gol_darah" string="Golongan Darah" domain="[]" context="{'group_by':'gol_darah'}"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="ptf_pasien_form_view">
+            <field name="name">ptf.pasien.form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                
+                <form string="Pasien">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="kode" class="oe_inline" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="name" string="Nama" required="1"/>
+                            <field name="jenis_kelamin" required="1"/>
+                            <field name="tgl_lahir" required="1"/>
+                            <field name="status" required="1"/>
+                            <field name="gol_darah"/>
+                            <field name="mobile" string="No HP/Telp"/>
+                            <field name="street" string="Alamat" required="1"/>
+                            <field name="pekerjaan" required="1"/>
+                            <field name="nama_pekerjaan" attrs="{'required': [('pekerjaan','=','lain')], 'invisible': [('pekerjaan','!=','lain')]}"/>
+                            <field name="pasien" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="History Pasien">
+                                <field name="history_pasien" readonly="1" attrs="{'invisible': [('pasien','!=',True)]}"/>
+                            </page>
+                            <page name="note" string="Note">
+                                <group>
+                                    <field name="comment" nolabel="1" class="oe_inline" placeholder="Note"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+                
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="ptf_pasien_action">
+            <field name="name">Pasien</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_pasien':True}</field>
+            <field name="domain">[('pasien','=',True)]</field>
+            <field name="search_view_id" ref="view_ptf_pasien_search"/>
+        </record>
+        
+        <record id="ptf_pasien_action_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="ptf_pasien_tree_view"/>
+            <field name="act_window_id" ref="ptf_pasien_action"/>
+        </record>
+        
+        <record id="ptf_pasien_action_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ptf_pasien_form_view"/>
+            <field name="act_window_id" ref="ptf_pasien_action"/>
+        </record>
+        
+        <menuitem action="ptf_pasien_action" id="ptf_pasien_menu" parent="ptf_base.ptf_data_master_submenu" sequence="20"/>
+    	
+    </data>
+</odoo>

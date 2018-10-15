@@ -1,0 +1,4 @@
+import res_partner
+import ptf_poli
+import ptf_pendaftaran
+import ptf_pemeriksaan

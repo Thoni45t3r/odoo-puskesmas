@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        
+        <menuitem action="product.product_template_action" id="ptf_obat_menu" name="Obat" parent="ptf_base.ptf_data_master_submenu" sequence="40"/>
+        
+    </data>
+</odoo>

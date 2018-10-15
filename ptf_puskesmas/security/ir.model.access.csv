@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ptf_poli_all,ptf_poli all,model_ptf_poli,,1,1,1,1
+access_ptf_pendaftaran_all,ptf_pendaftaran all,model_ptf_pendaftaran,,1,1,1,1
+access_ptf_pemeriksaan_all,ptf_pemeriksaan all,model_ptf_pemeriksaan,,1,1,1,1
+access_ptf_resep_obat_all,ptf_resep_obat all,model_ptf_resep_obat,,1,1,1,1

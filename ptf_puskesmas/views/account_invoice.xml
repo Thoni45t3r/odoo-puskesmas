@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        
+        <menuitem action="account.action_invoice_tree1" id="ptf_pembayaran_menu" name="Pembayaran" parent="ptf_base.ptf_transaksi_submenu" sequence="30"/>
+        
+    </data>
+</odoo>

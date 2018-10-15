@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+    	
+    	<menuitem id="ptf_topmenu" name="Puskesmas" sequence="400"/>
+    	<menuitem id="ptf_data_master_submenu" parent="ptf_topmenu" name="Data Master" sequence="10"/>
+        <menuitem id="ptf_transaksi_submenu" parent="ptf_topmenu" name="Transaksi" sequence="20"/>
+		
+	</data>
+</odoo>

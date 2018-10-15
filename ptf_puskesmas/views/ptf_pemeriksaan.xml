@@ -1,0 +1,132 @@
+<odoo>
+    <data>
+        
+        <record model="ir.ui.view" id="ptf_pemeriksaan_tree_view">
+            <field name="name">ptf.pemeriksaan.tree</field>
+            <field name="model">ptf.pemeriksaan</field>
+            <field name="arch" type="xml">
+                <tree string="Pemeriksaan">
+                    <field name="name"/>
+                    <field name="pendaftaran_id"/>
+                    <field name="pasien_id"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="usia"/>
+                    <field name="poli_id"/>
+                    <field name="dokter_id"/>
+                    <field name="state"/>
+                </tree>
+             </field>
+        </record>
+        
+        <record id="view_ptf_pemeriksaan_search" model="ir.ui.view">
+            <field name="name">ptf.pemeriksaan.search</field>
+            <field name="model">ptf.pemeriksaan</field>
+            <field name="arch" type="xml">
+                <search string="Search Pemeriksaan">
+                    <field name="name"/>
+                    <field name="pendaftaran_id"/>
+                    <field name="pasien_id"/>
+                    <field name="jenis_kelamin"/>
+                    <field name="usia"/>
+                    <field name="poli_id"/>
+                    <field name="dokter_id"/>
+                    <field name="state"/>
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Confirm" name="confirm" domain="[('state','=','confirm')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_pasien" string="Pasien" domain="[]" context="{'group_by':'pasien_id'}"/>
+                        <filter name="group_jenis_kelamin" string="Jenis" domain="[]" context="{'group_by':'jenis_kelamin'}"/>
+                        <filter name="group_poli" string="Poli" domain="[]" context="{'group_by':'poli_id'}"/>
+                        <filter name="group_dokter" string="Poli" domain="[]" context="{'group_by':'dokter_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="ptf_pemeriksaan_form_view">
+            <field name="name">ptf.pemeriksaan.form</field>
+            <field name="model">ptf.pemeriksaan</field>
+            <field name="arch" type="xml">
+                
+                <form string="Pemeriksaan">
+                    <header>
+                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" attrs="{'invisible': [('state','!=','draft')]}"/>
+                        <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state','=','cancel')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" class="oe_inline" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="pendaftaran_id" domain="[('state','in',['confirm'])]" attrs="{'readonly': [('state','!=','draft')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="tanggal" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                            <field name="pasien_id" domain="[('pasien','=',True)]" attrs="{'readonly': [('state','!=','draft')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="jenis_kelamin" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                            <field name="usia" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                            <field name="poli_id" attrs="{'readonly': [('state','!=','draft')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="dokter_id" domain="[('dokter','=',True)]" attrs="{'readonly': [('state','!=','draft')]}" required="1" options="{'no_open': True, 'no_create': True}"/>
+                            <field name="keluhan" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                            <field name="hasil" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                            <field name="tindakan" attrs="{'readonly': [('state','!=','draft')]}" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Resep Obat">
+                                <field name="resep_line" attrs="{'readonly': [('state','!=','draft')]}">
+                                    <tree string="Resep Obat" editable="bottom">
+                                        <field name="product_id" options="{'no_open': True, 'no_create': True}"/>
+                                        <field name="aturan_minum"/>
+                                        <field name="waktu_minum"/>
+                                        <field name="qty"/>
+                                        <field name="satuan_id" options="{'no_open': True, 'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Audit Trail">
+                                <group>
+                                    <group>
+                                        <field name="create_uid" readonly="1"/>
+                                        <field name="create_date" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="write_uid" readonly="1"/>
+                                        <field name="write_date" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+                
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="ptf_pemeriksaan_action">
+            <field name="name">Pemeriksaan</field>
+            <field name="res_model">ptf.pemeriksaan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+        </record>
+        
+        <record id="ptf_pemeriksaan_action_tree" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="ptf_pemeriksaan_tree_view"/>
+            <field name="act_window_id" ref="ptf_pemeriksaan_action"/>
+        </record>
+        
+        <record id="ptf_pemeriksaan_action_form" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ptf_pemeriksaan_form_view"/>
+            <field name="act_window_id" ref="ptf_pemeriksaan_action"/>
+        </record>
+        
+        <menuitem action="ptf_pemeriksaan_action" id="ptf_pemeriksaan_menu" parent="ptf_base.ptf_transaksi_submenu" sequence="20"/>
+        
+    </data>
+</odoo>
